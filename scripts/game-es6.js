@@ -36,6 +36,9 @@ class Game{
         //Enable tap on touch device
         createjs.Touch.enable(this.stage);
 
+        //Enable retina screen
+        this.retinalize();
+
         window.debugStage=this.stage;//l ?
 
 
@@ -64,7 +67,7 @@ class Game{
         return '1.0.0';
     }
 
-    generateMultipleBoxes(amount=100){
+    generateMultipleBoxes(amount=10){
         for(var i=amount;i>0;i--){
             var movieclip=new NumberedBox(this,i);
             this.stage.addChild(movieclip);
@@ -76,6 +79,23 @@ class Game{
     }
     handleClick(NumberedBox){
         this.stage.removeChild(NumberedBox);
+    }
+    retinalize(){
+        this.stage.width=this.canvas.width;
+        this.stage.height=this.canvas.height;
+
+        let ratio=window.devicePixelRatio;
+        if(ratio===undefined){
+            return;
+        }
+        this.canvas.setAttribute('width', Math.round(this.stage.width*ratio));
+        this.canvas.setAttribute('height', Math.round(this.stage.height*ratio));
+
+        this.stage.scaleX=this.stage.scaleY=ratio;
+
+        //Set CSS style
+        this.canvas.style.width=this.stage.width+"px";
+        this.canvas.style.height=this.stage.height+"px";
     }
 
 }
