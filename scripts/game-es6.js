@@ -5,6 +5,7 @@ class NumberedBox extends createjs.Container{ //l The container is a kind of dis
         super(); //l At the beginning of the constructor, we call the super to initialize the create JS container logic.
     
         this.game=game;
+        this.number=number;
 
         var movieclip=new lib.NumberedBox();
         movieclip.numberText.text=number;
@@ -18,6 +19,31 @@ class NumberedBox extends createjs.Container{ //l The container is a kind of dis
     }
     handleClick(){
         this.game.handleClick(this);
+    }
+
+}
+
+//This class controls the game data.
+class GameData{
+    constructor(){
+        this.amountOfBox=20;
+        this.resetData();
+
+    }
+    resetData(){
+        this.currentNumber=1;
+    }
+    nextNumber(){
+        this.currentNumber+=1;
+    }
+
+    isRightNumber(number){
+        return (number===this.currentNumber);
+    }
+
+    isGameWin(){
+        //To do
+        return false;
     }
 
 }
@@ -43,6 +69,9 @@ class Game{
 
 
         createjs.Ticker.setFPS(60);
+
+        //Game related initializtion
+        this.gameData=new GameData();
         
         //Keep re-drawing the stage.
         createjs.Ticker.on("tick", this.stage);
@@ -77,8 +106,11 @@ class Game{
             movieclip.y=Math.random()*(this.stage.height-movieclip.getBounds().height);
         }
     }
-    handleClick(NumberedBox){
-        this.stage.removeChild(NumberedBox);
+    handleClick(numberedBox){
+        if(this.gameData.isRightNumber(numberedBox.number)){
+            this.stage.removeChild(numberedBox);
+            this.gameData.nextNumber();
+        }
     }
     retinalize(){
         this.stage.width=this.canvas.width;
