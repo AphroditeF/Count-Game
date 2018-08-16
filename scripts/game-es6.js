@@ -9,6 +9,10 @@ class NumberedBox extends createjs.Container{ //l The container is a kind of dis
 
         var movieclip=new lib.NumberedBox();
         movieclip.numberText.text=number;
+
+        //I should change numberedbox from movieclip to button in Animate
+        //new createjs.ButtonHelper(movieclip, 0, 1, 2, true, new lib.NumberedBox(), 3);
+
         this.addChild(movieclip);
 
         this.setBounds(0,0,50,50);
@@ -58,6 +62,8 @@ class Game{
 
         this.stage.width=this.canvas.width;
         this.stage.height=this.canvas.height;
+
+        this.stage.enableMouseOver();
 
         //Enable tap on touch device
         createjs.Touch.enable(this.stage);
