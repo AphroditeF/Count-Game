@@ -82,8 +82,7 @@ class Game{
         //Keep re-drawing the stage.
         createjs.Ticker.on("tick", this.stage);
 
-        //Background
-        this.stage.addChild(new lib.Background());
+        
 
         //Testing code
 
@@ -94,12 +93,20 @@ class Game{
 
         //this.stage.addChild(new NumberedBox(68));
 
-        this.generateMultipleBoxes(this.gameData.amountOfBox);
+        this.restartGame();
         
 
     }
     version(){
         return '1.0.0';
+    }
+
+    restartGame(){
+        this.gameData.resetData();
+        this.stage.removeAllChildren();
+        //Background
+        this.stage.addChild(new lib.Background());
+        this.generateMultipleBoxes(this.gameData.amountOfBox);
     }
 
     generateMultipleBoxes(amount=10){
@@ -121,7 +128,12 @@ class Game{
             if(this.gameData.isGameWin()){
                 var gameOverView=new lib.GameOverView();
                 this.stage.addChild(gameOverView);
+
+                gameOverView.restartButton.on('click', (function(){
+                    this.restartGame();
+                }).bind(this));
             }
+
         }
     }
     retinalize(){
