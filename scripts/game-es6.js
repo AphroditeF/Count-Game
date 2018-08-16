@@ -8,9 +8,8 @@ class NumberedBox extends createjs.Container{ //l The container is a kind of dis
         movieclip.numberText.text=number;
         this.addChild(movieclip);
 
-        //random position
-        movieclip.x=Math.random()*200;
-        movieclip.y=Math.random()*200;
+        this.setBounds(0,0,50,50);
+        
     }
 
 
@@ -23,6 +22,9 @@ class Game{
     
         this.canvas=document.getElementById("game-canvas");
         this.stage=new createjs.Stage(this.canvas);
+
+        this.stage.width=this.canvas.width;
+        this.stage.height=this.canvas.height;
 
         window.debugStage=this.stage;//l ?
 
@@ -42,13 +44,27 @@ class Game{
         // circle.x=circle.y=100;
         // this.stage.addChild(circle);
 
-        this.stage.addChild(new NumberedBox(68));
+        //this.stage.addChild(new NumberedBox(68));
+
+        this.generateMultipleBoxes();
         
 
     }
     version(){
         return '1.0.0';
     }
+
+    generateMultipleBoxes(amount=10){
+        for(var i=amount;i>0;i--){
+            var movieclip=new NumberedBox(i);
+            this.stage.addChild(movieclip);
+
+            //random position
+            movieclip.x=Math.random()*(this.stage.width-movieclip.getBounds().width);
+            movieclip.y=Math.random()*(this.stage.height-movieclip.getBounds().height);
+        }
+    }
+
 }
 
 //Start the game
