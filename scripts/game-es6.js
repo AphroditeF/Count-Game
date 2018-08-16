@@ -10,6 +10,11 @@ class NumberedBox extends createjs.Container{ //l The container is a kind of dis
         var movieclip=new lib.NumberedBox();
         movieclip.numberText.text=number;
 
+
+        movieclip.numberText.font="42px 'Kosugi Maru'";
+        movieclip.numberText.textBaseline="alphabet";
+        movieclip.numberText.x+=2;
+        movieclip.numberText.y=42;
         //I should change numberedbox from movieclip to button in Animate
         //new createjs.ButtonHelper(movieclip, 0, 1, 2, true, new lib.NumberedBox(), 3);
 
@@ -30,7 +35,7 @@ class NumberedBox extends createjs.Container{ //l The container is a kind of dis
 //This class controls the game data.
 class GameData{
     constructor(){
-        this.amountOfBox=2;
+        this.amountOfBox=20;
         this.resetData();
 
     }
