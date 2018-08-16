@@ -26,7 +26,7 @@ class NumberedBox extends createjs.Container{ //l The container is a kind of dis
 //This class controls the game data.
 class GameData{
     constructor(){
-        this.amountOfBox=20;
+        this.amountOfBox=2;
         this.resetData();
 
     }
@@ -42,8 +42,8 @@ class GameData{
     }
 
     isGameWin(){
-        //To do
-        return false;
+        
+        return (this.currentNumber>this.amountOfBox);
     }
 
 }
@@ -88,7 +88,7 @@ class Game{
 
         //this.stage.addChild(new NumberedBox(68));
 
-        this.generateMultipleBoxes();
+        this.generateMultipleBoxes(this.gameData.amountOfBox);
         
 
     }
@@ -110,6 +110,12 @@ class Game{
         if(this.gameData.isRightNumber(numberedBox.number)){
             this.stage.removeChild(numberedBox);
             this.gameData.nextNumber();
+
+            //Is game over?
+            if(this.gameData.isGameWin()){
+                var gameOverView=new lib.GameOverView();
+                this.stage.addChild(gameOverView);
+            }
         }
     }
     retinalize(){
