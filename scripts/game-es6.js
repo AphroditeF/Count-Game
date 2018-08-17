@@ -28,8 +28,8 @@ class NumberedBox extends createjs.Container{ //l The container is a kind of dis
     }
     handleClick(){
         this.game.handleClick(this);
+        createjs.Sound.play("Jump");
     }
-
 }
 
 //This class controls the game data.
@@ -61,6 +61,8 @@ class GameData{
 class Game{
     constructor(){
         console.log(`Welcome to the game. Version ${this.version()}`);
+
+        this.loadSound();
     
         this.canvas=document.getElementById("game-canvas");
         this.stage=new createjs.Stage(this.canvas);
@@ -106,6 +108,14 @@ class Game{
         return '1.0.0';
     }
 
+    loadSound(){
+        createjs.Sound.alternateExtensions=["ogg", "wav"];
+        createjs.Sound.registerSound("soundfx/Blip_Select10.aiff", "Jump");
+        createjs.Sound.registerSound("soundfx/game-over.aiff","Game Over");
+        
+    
+    }
+
     restartGame(){
         this.gameData.resetData();
         this.stage.removeAllChildren();
@@ -131,10 +141,13 @@ class Game{
 
             //Is game over?
             if(this.gameData.isGameWin()){
+
+                createjs.Sound.play("Game Over");
                 var gameOverView=new lib.GameOverView();
                 this.stage.addChild(gameOverView);
 
                 gameOverView.restartButton.on('click', (function(){
+                    createjs.Sound.play("Jump");
                     this.restartGame();
                 }).bind(this));
             }
